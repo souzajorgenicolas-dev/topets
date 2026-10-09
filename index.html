@@ -13,7 +13,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261009-8">
 </head>
 
 <body>
@@ -92,29 +92,28 @@
         <div id="delivery-line" hidden><span>Entrega</span><b id="delivery-value"></b></div>
         <div class="total-line"><span>Total</span><b id="total">R$ 0,00</b></div>
       </div><button class="clear-button" id="clear-cart" hidden>Limpar sacola</button>
-      <form id="checkout" hidden>
-        <h3>Como vamos entregar?</h3><label>Seu nome<input name="customer" required autocomplete="name"
-            placeholder="Nome"></label>
-        <div class="segmented"><label><input type="radio" name="fulfillment" value="delivery"
-              checked><span>Entrega</span></label><label><input type="radio" name="fulfillment"
-              value="pickup"><span>Retirada</span></label></div>
-        <div id="delivery-fields"><label>Endereço completo<input name="address" autocomplete="street-address"
-              placeholder="Rua, número e bairro"></label><label>Complemento / referência<input name="reference"
-              placeholder="Opcional"></label></div><label>Pagamento<select name="payment" required>
-            <option value="">Selecione</option>
-            <option>Pix</option>
-            <option>Dinheiro</option>
-            <option>Cartão de crédito</option>
-            <option>Cartão de débito</option>
-          </select></label><label id="change-wrap" hidden>Troco para<input name="change" type="number" min="0"
-            step="0.01" placeholder="Valor em reais"></label><label>Observações do pedido<textarea name="notes" rows="2"
-            placeholder="Opcional"></textarea></label><button class="button button-yellow checkout-button"
-          type="submit">Continuar no WhatsApp <span><span class="arrow-icon" aria-hidden="true"><svg
-                viewBox="0 0 24 24">
-                <path d="M7 17L17 7M8 7h9v9" />
-              </svg></span></span></button><small class="checkout-hint">Você poderá revisar e enviar a mensagem pelo
-          WhatsApp.</small>
-      </form>
+      <form id="checkout" novalidate hidden>
+  <h3>Como vamos entregar?</h3>
+  <div class="form-field"><label for="customer">Nome completo</label><input id="customer" name="customer" autocomplete="name" placeholder="Seu nome completo"><small class="field-error" data-error="customer"></small></div>
+  <div class="form-field"><label for="phone">Telefone para contato</label><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000"><small class="field-error" data-error="phone"></small></div>
+  <div class="segmented"><label><input type="radio" name="fulfillment" value="delivery" checked><span>Entrega</span></label><label><input type="radio" name="fulfillment" value="pickup"><span>Retirada</span></label></div>
+  <div id="delivery-fields"><p class="form-section-label">Endereço de entrega</p><div class="address-grid">
+    <div class="form-field field-street"><label for="street">Rua ou avenida</label><input id="street" name="street" autocomplete="address-line1" placeholder="Nome da rua ou avenida"><small class="field-error" data-error="street"></small></div>
+    <div class="form-field field-number"><label for="house-number">Número</label><input id="house-number" name="houseNumber" placeholder="Nº ou unidade"><small class="field-error" data-error="houseNumber"></small></div>
+    <div class="form-field field-district"><label for="district">Bairro</label><select id="district" name="district"><option value="">Selecione seu bairro</option></select><small class="field-error" data-error="district"></small><small id="neighborhood-help" class="field-help"></small><div class="form-field" id="other-district-field" hidden><label for="other-district">Digite o nome do bairro</label><input id="other-district" name="otherDistrict" placeholder="Nome do bairro"><small class="field-error" data-error="otherDistrict"></small></div></div>
+    <div class="form-field field-residence"><label for="residence-type">Tipo de residência</label><select id="residence-type" name="residenceType"><option value="">Selecione</option><option value="Casa">Casa</option><option value="Apartamento">Apartamento</option></select><small class="field-error" data-error="residenceType"></small></div>
+    <div class="form-field field-unit" id="apartment-field" hidden><label for="apartment-number">Número do apartamento</label><input id="apartment-number" name="apartmentNumber" placeholder="Ex.: 302" inputmode="numeric"><small class="field-error" data-error="apartmentNumber"></small></div>
+    <div class="form-field field-blocks" id="has-blocks-field" hidden><label class="check-option"><input type="checkbox" id="has-blocks" name="hasBlocks"> O local possui bloco?</label></div>
+    <div class="form-field field-block" id="block-field" hidden><label for="block">Bloco</label><input id="block" name="block" placeholder="Bloco"><small class="field-error" data-error="block"></small></div>
+    <div class="form-field field-complement"><label for="complement">Complemento <span>(opcional)</span></label><input id="complement" name="complement" placeholder="Casa, fundos, etc."></div>
+    <div class="form-field field-reference"><label for="reference">Ponto de referência <span>(opcional)</span></label><input id="reference" name="reference" placeholder="Próximo a..."></div>
+  </div></div>
+  <div class="form-field"><label for="payment">Forma de pagamento</label><select id="payment" name="payment"><option value="">Selecione</option><option>Pix</option><option>Dinheiro</option><option>Cartão de crédito</option><option>Cartão de débito</option></select><small class="field-error" data-error="payment"></small></div>
+  <div id="cash-change-fields" hidden><label class="check-option"><input type="checkbox" id="needs-change" name="needsChange"> Preciso de troco</label><div class="form-field" id="change-wrap" hidden><label for="change">Troco para</label><input id="change" name="change" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 50,00"><small class="field-error" data-error="change"></small></div></div>
+  <div class="form-field"><label for="order-notes">Observações do pedido <span>(opcional)</span></label><textarea id="order-notes" name="notes" rows="2" placeholder="Opcional"></textarea></div>
+  <p id="checkout-error" class="checkout-error" role="alert" hidden></p>
+  <button class="button button-yellow checkout-button" type="submit">Continuar no WhatsApp <span><span class="arrow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg></span></span></button><small class="checkout-hint">Você poderá revisar e enviar a mensagem pelo WhatsApp.</small>
+</form>
     </div>
   </aside>
   <div class="product-modal" id="product-modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -128,8 +127,8 @@
           à sacola</button></div>
     </div>
   </div>
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script src="data.js?v=20261009-8"></script>
+  <script src="app.js?v=20261009-8"></script>
 </body>
 
 </html>
