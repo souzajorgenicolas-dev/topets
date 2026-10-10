@@ -91,7 +91,7 @@ function validateCheckout(form) {
   const data = new FormData(form), fulfillment = data.get('fulfillment'), payment = data.get('payment');
   for (const [name, message] of [['customer', 'Informe seu nome completo.'], ['phone', 'Informe um telefone para contato.']]) if (!String(data.get(name) || '').trim()) setError(name, message);
   const nameParts = String(data.get('customer') || '').trim().split(/\s+/).filter(Boolean); if (nameParts.length === 1) setError('customer', 'Informe seu nome e sobrenome.');
-  const digits = String(data.get('phone') || '').replace(/\D/g, ''); if (digits && digits.length < 10) setError('phone', 'Informe um telefone válido com DDD.');
+  const digits = String(data.get('phone') || '').replace(/\D/g, ''); const localDigits = digits.startsWith('55') && [12, 13].includes(digits.length) ? digits.slice(2) : digits; if (digits && ![10, 11].includes(localDigits.length)) setError('phone', 'Informe um telefone com DDD: 10 dígitos para fixo ou 11 para celular.');
   if (!payment) setError('payment', 'Selecione a forma de pagamento.');
   let neighborhood = null, fee = 0;
   if (fulfillment === 'delivery') {
